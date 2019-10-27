@@ -14,13 +14,13 @@ BIN_PATH = ./bin
 all: lz78 main lz78_compact
 
 lz78_compact: lz78 main
-	$(CXX) $(CXXFLAGS) $(BUILD_PATH)/*.o -o $(BIN_PATH)/lz78_compact
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $(BUILD_PATH)/*.o -o $(BIN_PATH)/lz78_compact
 
 main: $(SRC_PATH)/main.cpp
-	$(CXX) $(CXXFLAGS) -c $(SRC_PATH)/main.cpp -o $(BUILD_PATH)/main.o
+	$(CXX) $(CXXFLAGS) -c $(SRC_PATH)/main.cpp $(INCLUDES) -o $(BUILD_PATH)/main.o
 
 lz78: $(SRC_PATH)/LZ78.cpp
 	$(CXX) $(CXXFLAGS) -c $(SRC_PATH)/LZ78.cpp $(INCLUDES) -o $(BUILD_PATH)/lz78.o
 
 clean:
-	rm -f $(BUILD_PATH)/*.*  $(BIN_PATH)/*.*
+	rm -f $(BUILD_PATH)/*.*  $(BIN_PATH)/*
