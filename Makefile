@@ -2,7 +2,7 @@
 CXX=g++
 
 # FLAGs
-CXXFLAGS=-std=c++11 -Wall -Wextra -g -O3
+CXXFLAGS=-std=c++11 -Wall -Wextra -g -O3 -fpermissive
 INCLUDES = -I include/ -I /usr/local/include
 
 # PATHs
