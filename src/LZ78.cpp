@@ -38,6 +38,15 @@ void LZ::LZ78::compact(const std::string out_file){
         str += it->second.second;
         enc_buffer[pos] = str;
     }
+
+    // Write to file
+    std::ofstream f(out_file);
+    if(f.is_open()){
+        for(auto it = enc_buffer.cbegin(); it != enc_buffer.cend(); ++it){
+            f << *it;
+        }
+        f.close();
+    }
     
     //@DEBUG
     for(auto it = enc_buffer.cbegin(); it != enc_buffer.cend(); ++it){
