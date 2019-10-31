@@ -6,7 +6,7 @@
 #include <vector>
 #include <map>
 
-using codebook_type = std::map<std::vector<char>, std::pair<std::vector<char>, char> >;
+using codebook_type = std::map<std::vector<unsigned char>, std::pair<int, char> >;
 
 namespace LZ {
     class LZ78 {
@@ -14,6 +14,7 @@ namespace LZ {
         const std::string file_path;
         std::vector<unsigned char> buffer;
         codebook_type codebook;
+        std::map<std::vector<unsigned char>, int> buffer_splited;
 
         public:
             LZ78(const std::string file_path);
@@ -22,7 +23,7 @@ namespace LZ {
 
         private:
             codebook_type make_codebook(std::vector<unsigned char> buffer);
-            std::string printVector(std::vector<char> v);
+            std::string printVector(std::vector<unsigned char> v);
 
 
     };
