@@ -1,6 +1,7 @@
 #include "LZ78.hpp"
 
 #include <algorithm>
+#include <math.h>
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -19,7 +20,29 @@ LZ::LZ78::LZ78(const std::string file_path){
 }
 
 void LZ::LZ78::compact(const std::string out_file){
+    // Get number of words in our file
+    int n = this->codebook.size();
+    int bit_size = ((int)log2(n)) + 1;
+
+    // Define an empty vector to be our encoded buffer
+    std::vector<std::string> enc_buffer(n);
+
     // Compress buffer and save the file + codebook
+    for(auto it = this->codebook.cbegin(); it != this->codebook.cend(); ++it){
+        // Retrieve data
+        std::vector<unsigned char> key = it->first;
+        int pos = this->buffer_splited[key];
+        
+        // Convert array of chars to string and then to bitset format
+        std::string str = toBinary(it->second.first, bit_size);
+        str += it->second.second;
+        enc_buffer[pos] = str;
+    }
+    
+    //@DEBUG
+    for(auto it = enc_buffer.cbegin(); it != enc_buffer.cend(); ++it){
+        std::cout << *it << std::endl;
+    }
 
 }
 
@@ -51,11 +74,6 @@ codebook_type LZ::LZ78::make_codebook(std::vector<unsigned char> buffer){
 
     // Save insert list to speed up the encoding process
     this->buffer_splited = insert_list;
-    
-    // @DEBUG
-    for(auto it = codebook.cbegin(); it != codebook.cend(); ++it){
-        std::cout << printVector(it->first) << ": {" << it->second.first <<", " << it->second.second <<"}" << std::endl;
-    }
 
     return codebook;
 }
@@ -66,6 +84,9 @@ std::string LZ::LZ78::printVector(std::vector<unsigned char> v){
 	return s;
 }
 
-void LZ::LZ78::descompact(codebook_type codebook, const std::string file){
-    
+std::string LZ::LZ78::toBinary(int n, int bit_size){
+    std::string r;
+    while(n!=0) {r=(n%2==0 ?"0":"1")+r; n/=2;}
+    r.insert(r.begin(), bit_size - r.length(), '0');
+    return r;
 }

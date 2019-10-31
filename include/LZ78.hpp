@@ -19,11 +19,11 @@ namespace LZ {
         public:
             LZ78(const std::string file_path);
             void compact(const std::string out_file);
-            void descompact(codebook_type codebook, const std::string file);
 
         private:
             codebook_type make_codebook(std::vector<unsigned char> buffer);
             std::string printVector(std::vector<unsigned char> v);
+            std::string toBinary(int n, int bit_size);
 
 
     };
